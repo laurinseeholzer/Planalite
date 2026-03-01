@@ -1,0 +1,32 @@
+[
+    {
+        "slug": "welcome-to-our-new-website",
+        "postTitle": {
+            "inner": "Welcome to our new website!"
+        },
+        "postDate": {
+            "inner": "December 1, 2026"
+        },
+        "postExcerpt": {
+            "inner": "We are excited to launch our brand new website, featuring a cleaner design and better navigation."
+        },
+        "postContent": {
+            "inner": "Welcome to the official launch of our new online presence. We spent months redesigning the layout to make it easier for you to find exactly what you are looking for. Take a look around and let us know what you think!"
+        }
+    },
+    {
+        "slug": "top-5-tips-for-productivity",
+        "postTitle": {
+            "inner": "Top 5 Tips for Productivity"
+        },
+        "postDate": {
+            "inner": "December 5, 2026"
+        },
+        "postExcerpt": {
+            "inner": "Discover our top secrets for staying focused and getting more done during the work day."
+        },
+        "postContent": {
+            "inner": "Productivity is all about working smarter, not harder. In this post, we explore five actionable tips that can help you reclaim your time. From time-blocking your calendar to minimizing digital distractions, these strategies will revolutionize your daily workflow."
+        }
+    }
+]

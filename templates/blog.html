@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="cms-type" content="singleton">
+    <meta name="cms-name" content="Blog">
+    <title cms="pageTitle" class="cms-inner">Blog</title>
+</head>
+
+<body>
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/about">About</a> |
+        <a href="/blog">Blog</a>
+    </nav>
+    <hr>
+
+    <h1 cms="pageTitle" class="cms-inner">Blog</h1>
+    <p cms="introText" class="cms-inner">Read our latest updates.</p>
+
+    <!-- This section uses cms-collection to fetch the blog-posts.json data -->
+    <ul>
+        <li class="cms-collection-blog-posts cms-repeat">
+            <h2><span cms="postTitle" class="cms-inner">Post Title</span></h2>
+            <p><strong>Published:</strong> <span cms="postDate" class="cms-inner">Date</span></p>
+            <p cms="postExcerpt" class="cms-inner">Excerpt here...</p>
+            <p><a class="cms-item-link" href="#">Read Full Post</a></p>
+            <hr>
+        </li>
+    </ul>
+
+</body>
+
+</html>

@@ -1,8 +1,16 @@
 {
     "pageTitle": {
-        "inner": "HTML-First CMS Demonstration"
+        "inner": "Welcome to the Demo Site"
     },
-    "welcomeMessage": {
-        "inner": "This template serves as a live demonstration of how our custom DOM-parsing engine works."
+    "heroSubtitle": {
+        "inner": "A simple demonstration of a generic website layout."
+    },
+    "aboutLinkText": {
+        "inner": "Learn More About Us",
+        "href": "/about"
+    },
+    "blogLinkText": {
+        "inner": "Read Our Blog",
+        "href": "/blog"
     }
 }

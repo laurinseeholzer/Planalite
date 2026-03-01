@@ -1,7 +1,7 @@
 <?php
-require_once 'src/helper.php';
-require_once 'src/elementParser.php';
-require_once 'src/repeatParser.php';
+require_once 'src/core/helper.php';
+require_once 'src/core/elementParser.php';
+require_once 'src/core/repeatParser.php';
 
 //GET URL
 $path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');

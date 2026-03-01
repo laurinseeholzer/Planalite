@@ -11,7 +11,7 @@ function parseElement($contextNode, $data, DOMDocument $dom) {
         if (file_exists($collectionFile)) {
             $data = json_decode(file_get_contents($collectionFile), true) ?: [];
             
-            // Inject collection awareness into the entire array
+            //INJECT COLLECTION INTO DATA
             foreach ($data as &$item) {
                 if (is_array($item)) {
                     $item['_collection'] = $collectionName;
@@ -27,8 +27,10 @@ function parseElement($contextNode, $data, DOMDocument $dom) {
             $data = [];
         }
         
+        //CLEANUP
         removeClassPrefix($contextNode, ['cms-collection-', 'cms-limit-']);
         
+        //PARSE REPEAT
         if (hasClass($contextNode, 'cms-repeat')) {
             parseRepeat($contextNode, $data, $dom);
             return;
