@@ -1,21 +1,11 @@
 <?php
-/**
- * Admin Collection List View
- * 
- * Renders a list of all items inside a specific Collection (e.g. all Features).
- * It reads the JSON array for the collection and loops through it to display each item.
- */
-
-// 1. Identify which collection to load based on the URL parameter (e.g. ?target=features)
 $collectionName = htmlspecialchars($target);
 $dataFile = "data/{$target}.json";
 $items = [];
 
-// 2. Fetch the collection data from the JSON file
 if (file_exists($dataFile)) {
     $data = json_decode(file_get_contents($dataFile), true);
     
-    // Ensure the data is actually a sequential array (a list of items) before assigning it
     if (is_array($data) && array_is_list($data)) {
         $items = $data;
     }
@@ -23,7 +13,6 @@ if (file_exists($dataFile)) {
 ?>
 
 <div>
-    <!-- Header Block -->
     <div>
         <nav aria-label="Back" class="sm:hidden">
             <a href="admin.php" class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
@@ -58,7 +47,6 @@ if (file_exists($dataFile)) {
             </h2>
         </div>
         <div class="mt-4 flex shrink-0 md:mt-0 md:ml-4 gap-2">
-            <!-- Generate from Template: updates ALL items in this collection -->
             <form method="POST" action="admin.php?action=scaffold" onsubmit="return confirm('This will scan the template and add any missing fields to ALL items in this collection. Existing data will NOT be changed. Continue?')">
                 <input type="hidden" name="target" value="<?= htmlspecialchars($target) ?>">
                 <input type="hidden" name="is_collection" value="1">
@@ -122,16 +110,13 @@ if (file_exists($dataFile)) {
 <?php else: ?>
     <div class="overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-lg dark:bg-gray-800 dark:ring-white/10">
         <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-            <!-- 3. Loop through each item in the collection array and render a row -->
             <?php foreach ($items as $item): ?>
             <li class="relative flex justify-between gap-x-6 px-4 py-5 hover:bg-gray-50 dark:hover:bg-gray-700/50 sm:px-6 transition-colors duration-200">
                 <div class="flex min-w-0 gap-x-4">
                     <div class="min-w-0 flex-auto">
                         <p class="text-sm font-semibold leading-6 text-gray-900 dark:text-white">
-                            <!-- Link to the Edit View for this specific item, passing both the target collection and item slug -->
                             <a href="admin.php?action=edit&target=<?= urlencode($target) ?>&slug=<?= urlencode($item['slug'] ?? '') ?>">
                                 <span class="absolute inset-x-0 -top-px bottom-0"></span>
-                                <!-- Fallback chain to find a displayable title for the item -->
                                 <?= htmlspecialchars($item['title'] ?? $item['name'] ?? $item['slug'] ?? 'Untitled Item') ?>
                             </a>
                         </p>

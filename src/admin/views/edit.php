@@ -1,20 +1,9 @@
 <?php
-/**
- * Admin Edit View
- * 
- * Handles rendering the text editor for a specific Singleton page or Collection item.
- * It determines what item to edit, fetches its JSON from disk, and formats the header title.
- */
-
-// 1. Determine exactly what we are editing 
-// If ?slug= exists, it's a specific item inside a collection. Otherwise, it's a singleton page.
 $isCollection = isset($_GET['slug']) || (isset($_GET['action']) && $_GET['action'] === 'create');
 $target = htmlspecialchars($_GET['target'] ?? '');
 $slug = htmlspecialchars($_GET['slug'] ?? '');
 $isCreate = isset($_GET['action']) && $_GET['action'] === 'create';
 
-// 2. Resolve a User-Friendly Display Name 
-// We scan the $singletons or $collections arrays (provided by admin.php) to find its proper CMS name.
 $prettyTargetName = $target;
 if (isset($singletons) && !$isCollection) {
     foreach ($singletons as $scene) {
@@ -32,27 +21,22 @@ if (isset($singletons) && !$isCollection) {
     }
 }
 
-// 3. Fetch the Raw JSON Data
 $data = [];
 $dataFileName = basename($target, '.html');
 $dataFile = "data/{$dataFileName}.json";
 
 if (file_exists($dataFile)) {
-    // Read and parse the JSON file
     $fileData = json_decode(file_get_contents($dataFile), true);
     
     if ($isCollection && is_array($fileData) && array_is_list($fileData)) {
         if ($isCreate) {
-            // If creating a new item, grab the first item in the array to use as a schema template
             if (!empty($fileData)) {
                 $templateItem = $fileData[0];
                 
-                // Recursive function to blank out data while preserving the structure
                 $emptySchema = function($array) use (&$emptySchema) {
                     $result = [];
                     foreach ($array as $key => $val) {
                         if (is_array($val)) {
-                            // If it's a nested array (like 'featureName' => ['inner' => '...']), recurse
                             $result[$key] = $emptySchema($val);
                         } else if (is_int($val)) {
                             $result[$key] = 0;
@@ -66,47 +50,37 @@ if (file_exists($dataFile)) {
                 };
                 
                 $data = $emptySchema($templateItem);
-                
-                // Always assure the slug is present at the root level and empty
                 $data['slug'] = '';
                 
             } else {
-                // Collection is entirely empty, provide a fallback basic schema
                 $data = ['slug' => 'new-item', 'title' => '', 'description' => ''];
             }
         } else if ($slug) {
-            // If editing an existing item, search the array for the exact item by matching the "slug"
             foreach ($fileData as $item) {
                 if (isset($item['slug']) && $item['slug'] === $slug) {
-                    $data = $item; // Found the item
+                    $data = $item;
                     break;
                 }
             }
         }
     } else if (!$isCollection) {
-        // If it's a singleton page, just load the raw array as-is
         $data = is_array($fileData) ? $fileData : [];
     }
 }
 
-// 4. Generate the Final Display Title for the Header
 if ($isCollection) {
     if ($isCreate) {
         $itemTitle = "New Item";
     } else {
-        // Try to find a human-readable title inside the item's JSON data (title -> name -> slug)
         $itemTitle = $slug ? (isset($data['title']) ? $data['title'] : (isset($data['name']) ? $data['name'] : $slug)) : "New Item";
     }
 } else {
-    // Fallback to the CMS name defined in the HTML meta tag
     $itemTitle = $prettyTargetName;
 }
 ?>
 
 <div>
-    <!-- Header/Breadcrumb Block -->
     <div>
-        <!-- Mobile Back Button -->
         <nav aria-label="Back" class="sm:hidden">
             <a href="admin.php<?= $isCollection ? "?action=list&target=" . urlencode($target) : "" ?>" class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
                 <svg class="mr-1 -ml-1 size-5 shrink-0 text-gray-400 dark:text-gray-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -152,7 +126,6 @@ if ($isCollection) {
         </div>
         <div class="mt-4 flex shrink-0 md:mt-0 md:ml-4 gap-2 flex-wrap">
             <?php if (!$isCollection): ?>
-            <!-- Generate from Template button — singletons only; collections use the list view -->
             <form method="POST" action="admin.php?action=scaffold" onsubmit="return confirm('This will scan the template and add any missing fields to the JSON. Existing data will NOT be changed. Continue?')">
                 <input type="hidden" name="target" value="<?= htmlspecialchars($target) ?>">
                 <button type="submit" class="inline-flex items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-white/10 dark:text-white dark:shadow-none dark:ring-white/5 dark:hover:bg-white/20">
@@ -200,7 +173,6 @@ if ($isCollection) {
     </div>
     <?php endif; ?>
 
-    <!-- Editor Form Area -->
     <div class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2 dark:bg-gray-800 dark:ring-white/10">
         <form id="edit-form" action="admin.php?action=save" method="POST" class="px-4 py-6 sm:p-8">
             <input type="hidden" name="target" value="<?= htmlspecialchars($target) ?>">

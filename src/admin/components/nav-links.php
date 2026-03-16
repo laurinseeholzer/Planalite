@@ -1,15 +1,5 @@
-<?php
-/**
- * Admin Navigation Component
- * 
- * Reusable loop that renders the Sidebar menu links.
- * It iterates over the $singletons and $collections arrays provided by admin.php.
- * 
- * Included by: admin-layout.php (twice - once for mobile sidebar, once for desktop sidebar)
- */
-?>
+<?php ?>
 <ul role="list" class="flex flex-1 flex-col gap-y-7 mt-4">
-    <!-- Static Dashboard Link -->
     <li>
         <ul role="list" class="-mx-2 space-y-1">
             <li>

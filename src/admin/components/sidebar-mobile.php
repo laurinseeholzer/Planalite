@@ -1,13 +1,5 @@
-<?php
-/**
- * Admin Mobile Sidebar Component
- * 
- * Included by: admin-layout.php
- */
-?>
-<!-- Mobile Sidebar -->
+<?php ?>
 <div x-show="sidebarOpen" class="relative z-50 lg:hidden" role="dialog" aria-modal="true" x-cloak>
-    <!-- Backdrop -->
     <div x-show="sidebarOpen" 
          x-transition:enter="transition-opacity ease-linear duration-300" 
          x-transition:enter-start="opacity-0" 
@@ -18,7 +10,6 @@
          class="fixed inset-0 bg-gray-900/80"></div>
 
     <div class="fixed inset-0 flex">
-        <!-- Sidebar panel -->
         <div x-show="sidebarOpen" 
              x-transition:enter="transition ease-in-out duration-300 transform" 
              x-transition:enter-start="-translate-x-full" 
@@ -41,7 +32,6 @@
                 <div class="flex h-16 shrink-0 items-center font-bold text-xl dark:text-white pt-4">
                     Planalite
                 </div>
-                <!-- Mobile Navigation (Reusing PHP loop) -->
                 <nav class="flex flex-1 flex-col">
                     <?php include __DIR__ . '/nav-links.php'; ?>
                 </nav>
