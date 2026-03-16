@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🪶 Planalite 
+# Planalite 
 
 **A lightning-fast, lightweight, flat-file CMS written in PHP.**
 
@@ -114,6 +114,7 @@ Planalite includes an integrated control panel to edit content securely without 
 2.  The engine will automatically scan all your `/templates`.
 3.  You will instantly see a Dashboard separating your **Singletons** (Static pages) and **Collections** (Dynamic lists).
 4.  Adding forms or modifying text saves natively down to the respective `data/` source.
+5.  Planalite offers automatic json generation and auto-healing from your templates. This means you don't have to create json files manually, they will be created automatically when you create a new template or add a new cms attribute to an existing template. To update the json file after adding a new cms attribute to an existing template you need to click the `generate from template` button on the edit page.
 
 ---
 
