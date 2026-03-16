@@ -44,6 +44,11 @@ switch ($action) {
         $adminContentTemplate = __DIR__ . '/src/admin/views/edit.php';
         break;
 
+    case 'settings':
+        $pageTitle = 'Settings';
+        $adminContentTemplate = __DIR__ . '/src/admin/views/settings.php';
+        break;
+
     case 'scaffold':
         require_once __DIR__ . '/src/admin/actions/scaffold.php';
         break;

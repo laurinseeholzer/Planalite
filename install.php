@@ -143,7 +143,7 @@ async function run() {
 
     // Finish
     actionEl.classList.remove('hidden');
-    actionEl.innerHTML = `<a href="index.php" class="w-full flex justify-center items-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg hover:bg-indigo-500 transition-all">
+    actionEl.innerHTML = `<a href="admin.php" class="w-full flex justify-center items-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg hover:bg-indigo-500 transition-all">
         Launch Planalite &rarr;
     </a>`;
 }
