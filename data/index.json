@@ -13,30 +13,40 @@
         "inner": "Read Our Blog",
         "href": "\/blog"
     },
-    "listItems": {
-        "0": {
-            "itemTextBold": {
-                "inner": "NR. 1"
+    "listItems": [
+        {
+            "itemTitle": {
+                "inner": "FIRST LIST ITEM"
             },
-            "itemTextNormal": {
-                "inner": "this is the first bulletpoint"
-            }
+            "itemTags": [
+                {
+                    "tagName": {
+                        "inner": "tag#1"
+                    }
+                },
+                {
+                    "tagName": {
+                        "inner": "tag#2"
+                    }
+                }
+            ]
         },
-        "2": {
-            "itemTextBold": {
-                "inner": "asdf"
+        {
+            "itemTitle": {
+                "inner": "SECOND LIST ITEM"
             },
-            "itemTextNormal": {
-                "inner": "asdf"
-            }
-        },
-        "3": {
-            "itemTextBold": {
-                "inner": "adsf"
-            },
-            "itemTextNormal": {
-                "inner": "asdf"
+            "itemTags": {
+                "0": {
+                    "tagName": {
+                        "inner": "tag#3"
+                    }
+                },
+                "2": {
+                    "tagName": {
+                        "inner": "tag#4"
+                    }
+                }
             }
         }
-    }
+    ]
 }

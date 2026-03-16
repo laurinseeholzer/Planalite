@@ -76,11 +76,15 @@ Use the following action classes to make diffrent attributes of the HTML element
 *   `cms-repeat`: Repeats the element for every item in the Data-Array stored in the JSON file.
 
 ```html
-    <!-- This will grab the 'listItems' array from data/page.json and repeat the list item for every item in the array -->
+    <!-- This will grab the 'listItem' array from data/page.json and repeat the list item for every item in the array -->
     <ul>
-        <li cms="listItems" class="cms-inner cms-repeat">list item</li>
+        <li cms="listItem" class="cms-repeat">
+            <span cms="itemText" class="cms-inner">Item Text</span>
+        </li>
     </ul>
 ```
+
+Note that it is not possible for repeatable elements to have other editeable classes. Therfore one has to use nested elements to make the content of a repeatable element editable. The example above uses a span element to make the text editable.
 
 ### 3. Rendering Collections (e.g., Blogs)
 

@@ -223,8 +223,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.cms-add-item').forEach(button => {
         button.addEventListener('click', function() {
             const container = this.closest('.cms-repeatable-list');
-            const itemsContainer = container.querySelector('.cms-items-container');
-            const template = container.querySelector('.cms-item-template');
+            const itemsContainer = container.querySelector(':scope > .cms-items-container');
+            const template = container.querySelector(':scope > .cms-item-template');
             
             if (!template) return;
 
@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let maxIndex = -1;
             const prefix = container.getAttribute('data-prefix');
             
-            itemsContainer.querySelectorAll('.cms-repeatable-item').forEach(item => {
+            itemsContainer.querySelectorAll(':scope > .cms-repeatable-item').forEach(item => {
                 const inputs = item.querySelectorAll('input, textarea');
                 inputs.forEach(input => {
                     const name = input.getAttribute('name');
