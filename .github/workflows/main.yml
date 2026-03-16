@@ -16,9 +16,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Zip the src folder
+      - name: Prepare Bundle
         run: |
-          cd src
+          # 1. Create a temporary bundle directory
+          mkdir cms-bundle
+          
+          # 2. Create the empty directories
+          mkdir cms-bundle/data
+          mkdir cms-bundle/template
+          
+          # 3. Copy the specific folders and files you requested
+          cp -r src cms-bundle/
+          cp index.php cms-bundle/
+          cp admin.php cms-bundle/
+          
+          # 4. Zip the contents of the bundle folder
+          cd cms-bundle
           zip -r ../cms-latest.zip .
           
       - name: Upload Zip to a "Latest" Release
@@ -26,5 +39,6 @@ jobs:
         with:
           files: cms-latest.zip
           tag_name: latest
+          overwrite: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
