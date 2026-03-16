@@ -1,0 +1,24 @@
+name: Package CMS
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Zip the src folder
+        run: |
+          cd src
+          zip -r ../cms-latest.zip .
+          
+      - name: Upload Zip to a "Latest" Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: cms-latest.zip
+          tag_name: latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
