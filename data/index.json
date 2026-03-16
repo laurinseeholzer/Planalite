@@ -7,10 +7,18 @@
     },
     "aboutLinkText": {
         "inner": "Learn More About Us",
-        "href": "/about"
+        "href": "\/about"
     },
     "blogLinkText": {
         "inner": "Read Our Blog",
-        "href": "/blog"
-    }
+        "href": "\/blog"
+    },
+    "listItems": [
+        {
+            "inner": "link1"
+        },
+        {
+            "inner": "link2"
+        }
+    ]
 }

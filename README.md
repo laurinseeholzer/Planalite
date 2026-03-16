@@ -24,11 +24,8 @@ Planalite offers a basic top-down structure for simple websites that need a fast
 *   **Flat-File Storage:** No database required. All content is stored in simple, readable `.json` files.
 *   **HTML-First Templating:** Design your site in pure `HTML`. Use special CSS classes and `cms="..."` attributes to make elements dynamic.
 *   **Collections & Singletons:** Support for both single, unique pages (like an "About" page) and recurring collections (like "Blog Posts" or "Portfolio Items").
-*   **Simple Routing:** Out-of-the-box SEO-friendly routing (`/about`, `/blog/my-first-post`).
 *   **Built-in Admin Panel:** Clean and minimal admin dashboard to manage all your unstructured content on the fly. 
 
-*(Here you can add a screenshot of your beautiful website!)*
-> `![Planalite Frontend Preview](/docs/assets/frontend-preview.png)`
 
 ---
 
@@ -36,9 +33,9 @@ Planalite offers a basic top-down structure for simple websites that need a fast
 
 Planalite separates **Data**, **Views**, and **Logic**:
 
-1.  **Data (`/data`):** Content is saved as structured JSON objects. For collections, it's an array of objects; for singletons, it's a direct key-value object.
-2.  **Templates (`/templates`):** Pure HTML blueprints. When a user requests a URL, Planalite finds the appropriate HTML file.
-3.  **Parsing Engine (`/src/core/elementParser.php`):** Planalite reads the HTML, looks for specific `cms-*` classes and attributes, injects the matching data from JSON, and serves the finalized page.
+1.  **Data (`/data`):** Content is saved as structured JSON objects. For collections, it's an array of objects; for singletons, it's a direct key-value object. Each page (singleton or collection) has its own JSON file stored in the `/data` directory.
+
+2.  **Templates (`/templates`):** Pure HTML blueprints. When a user requests a URL, Planalite finds the appropriate HTML file in the `/templates` directory and injects the data from the corresponding JSON file.
 
 ---
 
@@ -47,35 +44,53 @@ Planalite separates **Data**, **Views**, and **Logic**:
 ### 1. Creating a Page Template
 Create an `HTML` file in the `/templates` directory (e.g. `templates/about.html`).
 
-Add Planalite meta tags to define the page type:
+Add Planalite meta tags to define the page type (singleton or collection) and the name of the page as it will be displayed in the admin panel.
+
 ```html
 <head>
     <!-- Define as a singleton page -->
     <meta name="cms-type" content="singleton">
-    <meta name="cms-name" content="About Us">
+    <!-- Define as a collection page -->
+    <meta name="cms-type" content="collection">
+    <meta name="cms-name" content="Page Name">
 </head>
 ```
 
 ### 2. Making Content Editable
-Tag normal HTML elements with `cms="keyName"` and a specific `cms-*` action class. 
+Tag normal HTML elements with `cms="keyName"` and a specific `cms-*` action class. The cms key name is used to identify data in the JSON file and should therfore be unique for each data field.
 
-*   `cms-inner`: Changes the inner text of the element.
-*   `cms-href`: Safely changes the `href` attribute for anchor links.
+Use the following action classes to make diffrent attributes of the HTML element editable:
+
+*   `cms-inner`: Makes the inner text of the element editable.
+*   `cms-href`: Makes the `href` attribute of the element editable.
+*   `cms-src`: Makes the `src` attribute of the element editable.
 
 ```html
-<!-- This will grab the 'pageTitle' from data/about.json and inject it -->
-<h1 cms="pageTitle" class="cms-inner">Default Title</h1>
+    <!-- This will grab the 'pageTitle' from data/page.json and inject it -->
+    <h1 cms="pageTitle" class="cms-inner">Default Title</h1>
 
-<!-- This will update the link reference -->
-<a cms="contactLink" class="cms-inner cms-href" href="/contact">Say Hello</a>
+    <!-- This will update the link reference and the link text -->
+    <a cms="contactLink" class="cms-inner cms-href" href="/link">Link Text</a>
+```
+
+*   `cms-repeat`: Repeats the element for every item in the Data-Array stored in the JSON file.
+
+```html
+    <!-- This will grab the 'listItems' array from data/page.json and repeat the list item for every item in the array -->
+    <ul>
+        <li cms="listItems" class="cms-inner cms-repeat">list item</li>
+    </ul>
 ```
 
 ### 3. Rendering Collections (e.g., Blogs)
-You can render repeat-lists out of collections easily by chaining Planalite classes:
+
+A collection is a set of Pages that have the same template and are stored in the same JSON file. For example, a blog is a collection of blog posts where each blog post has its own page but they all share the same template.
+
+To render a collecion as a list on some other singleton page you can use the `cms-collection-{name}` class to define the parent element to pull from data/{name}.json, limited to {n} items. The keys and corresponding values of that repeated list items are then directly pulled from the JSON file of the collection.
 
 ```html
 <!-- Define the parent element to pull from data/blog-posts.json, limited to 3 items -->
-<ul class="cms-collection-blog-posts cms-limit-3">
+<ul class="cms-collection-{name} cms-limit-{n}">
     
     <!-- Repeat this bullet point for every item -->
     <li class="cms-repeat">
@@ -89,24 +104,11 @@ You can render repeat-lists out of collections easily by chaining Planalite clas
 </ul>
 ```
 
-### Reference: Available Planalite Classes
-| Class Pattern | Description |
-| :--- | :--- |
-| `cms-collection-{name}` | Links a DOM node to a specific JSON array in `/data`. |
-| `cms-limit-{n}` | Limits the fetched collection to `n` items. |
-| `cms-repeat` | Clones the element for every entry in the data array. |
-| `cms-item-link` | Automatically converts to a relative link pointing to the collection item's slug (`/collection/slug`). |
-| `cms-inner` | Injects text content from the JSON key specified in `cms="key"`. |
-| `cms-href` | Injects link target from the JSON value. |
-
----
+Use the `cms-item-link` class to create a link to the collection item's individual page.
 
 ## :control_knobs: Admin Panel
 
 Planalite includes an integrated control panel to edit content securely without touching JSON files manually.
-
-*(Feel free to add a screenshot of the Dashboard below!)*
-> `![Planalite Admin Dashboard](/docs/assets/admin-preview.png)`
 
 1.  Navigate to `/admin.php` via your browser.
 2.  The engine will automatically scan all your `/templates`.
@@ -117,8 +119,7 @@ Planalite includes an integrated control panel to edit content securely without 
 
 ## :wrench: Installation
 
-1. Clone the repository into your web server directory (e.g. Apache/Nginx or local XAMPP).
-2. Ensure your server is set to serve `/` and route unfound requests to `index.php` (if using Apache, `.htaccess` usually covers this).
-3. Ensure PHP `8.x` is installed.
-4. Set read/write permissions for the `/data` folder so the Admin panel can save JSON files.
-5. Create, build, fly! 🪶
+1. **Upload**: Copy `install.php` to your web server's root directory (e.g., Apache, Nginx, or XAMPP).
+2. **Execute**: Navigate to `/install.php` in your browser to install Planalite.
+3. **Automate**: The script will automatically fetch the latest version of Planalite from GitHub and set up the environment.
+4. **Cleanup**: Delete `install.php` and start building your site by adding files to `/templates` (and `/data` if you want to add some initial data).
