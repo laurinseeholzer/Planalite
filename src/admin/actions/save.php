@@ -4,19 +4,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $saveTarget = $_POST['target'] ?? '';
     $isCollection = isset($_POST['is_collection']) && $_POST['is_collection'] == '1';
     $originalSlug = $_POST['original_slug'] ?? '';
-    $rawJson = $_POST['raw_json'] ?? '';
     
     $saveTargetName = basename($saveTarget, '.html');
     $saveTargetFile = "data/{$saveTargetName}.json";
     
-    $decodedNewData = json_decode($rawJson, true);
-    
-    if ($decodedNewData === null) {
-        $redirectUrl = "admin.php?action=edit&target=" . urlencode($saveTarget);
-        $redirectUrl .= $isCollection ? "&slug=" . urlencode($originalSlug) : "";
-        header("Location: $redirectUrl&error=invalid_json");
-        exit;
-    }
+    $decodedNewData = $_POST['data'] ?? [];
 
     if ($isCollection) {
         $existingData = file_exists($saveTargetFile) ? json_decode(file_get_contents($saveTargetFile), true) : [];

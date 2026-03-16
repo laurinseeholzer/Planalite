@@ -4,6 +4,13 @@ $target = htmlspecialchars($_GET['target'] ?? '');
 $slug = htmlspecialchars($_GET['slug'] ?? '');
 $isCreate = isset($_GET['action']) && $_GET['action'] === 'create';
 
+require_once 'src/core/schema.php';
+require_once 'src/admin/helpers/form.php';
+
+$templateFile = getTemplateFile($target, $isCollection);
+$schema = $templateFile ? getSchemaForTemplate($templateFile) : [];
+if (isset($schema['slug'])) unset($schema['slug']); // Slug is handled separately
+
 $prettyTargetName = $target;
 if (isset($singletons) && !$isCollection) {
     foreach ($singletons as $scene) {
@@ -173,48 +180,121 @@ if ($isCollection) {
     </div>
     <?php endif; ?>
 
-    <div class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2 dark:bg-gray-800 dark:ring-white/10">
-        <form id="edit-form" action="admin.php?action=save" method="POST" class="px-4 py-6 sm:p-8">
+    <div>
+        <form id="edit-form" action="admin.php?action=save" method="POST" class="space-y-6">
             <input type="hidden" name="target" value="<?= htmlspecialchars($target) ?>">
             <?php if ($isCollection): ?>
                 <input type="hidden" name="is_collection" value="1">
                 <input type="hidden" name="original_slug" value="<?= htmlspecialchars($slug) ?>">
             <?php endif; ?>
 
-            <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div class="space-y-6">
                 
                 <?php if ($isCollection || isset($data['slug'])): ?>
-                <div class="sm:col-span-4">
-                    <label for="slug" class="block text-sm/6 font-medium text-gray-900 dark:text-white">Slug / Identifier</label>
+                <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl p-5 dark:bg-gray-800/40 dark:ring-white/10">
+                    <label for="slug" class="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2">Slug / Identifier</label>
                     <div class="mt-2">
-                        <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md dark:ring-white/10 dark:focus-within:ring-indigo-500">
+                        <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md dark:ring-white/10 dark:focus-within:ring-indigo-500 bg-white dark:bg-gray-800/60">
                             <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm dark:text-gray-400">/<?= $target ?>/</span>
-                            <input type="text" name="data[slug]" id="slug" value="<?= htmlspecialchars($data['slug'] ?? $slug) ?>" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm/6 dark:text-white" placeholder="my-awesome-post">
+                            <input type="text" name="data[slug]" id="slug" value="<?= htmlspecialchars($data['slug'] ?? $slug) ?>" class="block flex-1 border-0 bg-transparent py-2 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm dark:text-white" placeholder="my-awesome-post">
                         </div>
                     </div>
                 </div>
                 <?php endif; ?>
 
                 <div class="sm:col-span-full">
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
-                        Edit the raw JSON data below to update this content block.
-                    </p>
-                    <?php if (isset($_GET['error']) && $_GET['error'] === 'invalid_json'): ?>
-                        <div class="rounded-md bg-red-50 p-4 mb-4 dark:bg-red-900/50">
-                            <div class="flex">
-                                <div class="ml-3">
-                                    <h3 class="text-sm font-medium text-red-800 dark:text-red-200">Invalid JSON</h3>
-                                    <div class="mt-2 text-sm text-red-700 dark:text-red-300">
-                                        <p>The JSON you entered was malformed. Please fix syntax errors and try again.</p>
-                                    </div>
-                                </div>
-                            </div>
+                    <?php if (empty($schema)): ?>
+                        <div class="rounded-md bg-yellow-50 p-4 dark:bg-yellow-900/30">
+                            <p class="text-sm text-yellow-700 dark:text-yellow-200">No editable fields found in the template. Please use the <code>Generate from Template</code> button or add <code>cms</code> attributes to your <code>templates/<?= htmlspecialchars($target) ?>.html</code>.</p>
                         </div>
+                    <?php else: ?>
+                        <?php renderFormSchema($schema, $data); ?>
                     <?php endif; ?>
-                    <textarea name="raw_json" rows="15" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6 font-mono text-xs dark:bg-white/5 dark:text-gray-300 dark:ring-white/10"><?= htmlspecialchars(json_encode($data, JSON_PRETTY_PRINT)) ?></textarea>
                 </div>
 
             </div>
         </form>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add item
+    document.querySelectorAll('.cms-add-item').forEach(button => {
+        button.addEventListener('click', function() {
+            const container = this.closest('.cms-repeatable-list');
+            const itemsContainer = container.querySelector('.cms-items-container');
+            const template = container.querySelector('.cms-item-template');
+            
+            if (!template) return;
+
+            // Clone template
+            const clone = template.content.cloneNode(true);
+            const newItem = clone.querySelector('.cms-repeatable-item');
+
+            // Find unique index
+            let maxIndex = -1;
+            const prefix = container.getAttribute('data-prefix');
+            
+            itemsContainer.querySelectorAll('.cms-repeatable-item').forEach(item => {
+                const inputs = item.querySelectorAll('input, textarea');
+                inputs.forEach(input => {
+                    const name = input.getAttribute('name');
+                    if (name && name.startsWith(prefix)) {
+                        const match = name.match(/\[(\d+)\]/);
+                        if (match) {
+                            const idx = parseInt(match[1]);
+                            if (idx > maxIndex) maxIndex = idx;
+                        }
+                    }
+                });
+            });
+            const nextIndex = maxIndex + 1;
+
+            // Update names in clone from __INDEX__ to nextIndex
+            newItem.querySelectorAll('input, textarea').forEach(input => {
+                const name = input.getAttribute('name');
+                if (name) {
+                    input.setAttribute('name', name.replace('__INDEX__', nextIndex));
+                }
+            });
+
+            // Add remove listener
+            newItem.querySelector('.cms-remove-item').addEventListener('click', function() {
+                if (confirm('Are you sure you want to remove this item?')) {
+                    newItem.classList.add('animate-fade-out');
+                    setTimeout(() => newItem.remove(), 200);
+                }
+            });
+
+            itemsContainer.appendChild(newItem);
+        });
+    });
+
+    // Remove item (for existing items)
+    document.querySelectorAll('.cms-remove-item').forEach(button => {
+        button.addEventListener('click', function() {
+            const item = this.closest('.cms-repeatable-item');
+            if (item) {
+                if (confirm('Are you sure you want to remove this item?')) {
+                    item.classList.add('animate-fade-out');
+                    setTimeout(() => item.remove(), 200);
+                }
+            }
+        });
+    });
+});
+</script>
+
+<style>
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+    animation: fadeIn 0.2s ease-out forwards;
+}
+.animate-fade-out {
+    animation: fadeIn 0.15s ease-in reverse forwards;
+}
+</style>

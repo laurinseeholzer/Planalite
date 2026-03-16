@@ -13,8 +13,8 @@
         "inner": "Read Our Blog",
         "href": "\/blog"
     },
-    "listItems": [
-        {
+    "listItems": {
+        "0": {
             "itemTextBold": {
                 "inner": "NR. 1"
             },
@@ -22,13 +22,21 @@
                 "inner": "this is the first bulletpoint"
             }
         },
-        {
+        "2": {
             "itemTextBold": {
-                "inner": "Nr. 2"
+                "inner": "asdf"
             },
             "itemTextNormal": {
-                "inner": "this is the second bulletpoint"
+                "inner": "asdf"
+            }
+        },
+        "3": {
+            "itemTextBold": {
+                "inner": "adsf"
+            },
+            "itemTextNormal": {
+                "inner": "asdf"
             }
         }
-    ]
+    }
 }

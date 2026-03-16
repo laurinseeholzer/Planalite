@@ -1,17 +1,24 @@
-<?php ?>
+<?php 
+$theme = $_COOKIE['theme'] ?? 'dark';
+?>
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-white dark:bg-gray-900">
+<html lang="en" class="h-full <?= $theme === 'dark' ? 'dark' : '' ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planalite Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
     <style>
         [x-cloak] { display: none !important; }
     </style>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="h-full" x-data="{ sidebarOpen: false }">
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="{ sidebarOpen: false }">
 
 <?php include __DIR__ . '/sidebar-mobile.php'; ?>
 <?php include __DIR__ . '/sidebar-desktop.php'; ?>
