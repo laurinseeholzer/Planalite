@@ -118,9 +118,9 @@ Planalite includes an integrated control panel to edit content securely without 
 
 ---
 
-## :wrench: Installation
+## :wrench: Installation / Update
 
 1. **Upload**: Copy `install.php` to your web server's root directory (e.g., Apache, Nginx, or XAMPP).
 2. **Execute**: Navigate to `/install.php` in your browser to install Planalite.
-3. **Automate**: The script will automatically fetch the latest version of Planalite from GitHub and set up the environment.
-4. **Cleanup**: Delete `install.php` and start building your site by adding files to `/templates` (and `/data` if you want to add some initial data).
+3. **Set-Up**: The script will automatically fetch the latest version of Planalite from GitHub and set up the environment.
+4. **Update**: To update the planalite source files just re-visit `/install.php` or click on the update button in the dashboard.
