@@ -72,7 +72,7 @@ function deepMergeKeepExisting(array $existing, array $new): array {
             if ($existingIsList && $newIsList && !empty($schemaValue)) {
                 $itemSchema = $schemaValue[0];
                 $mapped = array_map(function($item) use ($itemSchema) {
-                    return is_array($item) && !array_is_list($item)
+                    return is_array($item) && (!array_is_list($item) || empty($item))
                         ? deepMergeKeepExisting($item, $itemSchema)
                         : $item;
                 }, $existing[$key]);

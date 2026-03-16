@@ -15,10 +15,20 @@
     },
     "listItems": [
         {
-            "inner": "link1"
+            "itemTextBold": {
+                "inner": "NR. 1"
+            },
+            "itemTextNormal": {
+                "inner": "this is the first bulletpoint"
+            }
         },
         {
-            "inner": "link2"
+            "itemTextBold": {
+                "inner": "Nr. 2"
+            },
+            "itemTextNormal": {
+                "inner": "this is the second bulletpoint"
+            }
         }
     ]
 }
