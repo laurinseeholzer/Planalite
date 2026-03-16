@@ -13,7 +13,7 @@ if (isset($_GET['step'])) {
 
     // STEP 1: PREPARE DIRECTORIES
     if ($_GET['step'] === 'prepare') {
-        $folders = ['data', 'template'];
+        $folders = ['data', 'templates'];
         $created = [];
         foreach ($folders as $folder) {
             if (!is_dir(__DIR__ . '/' . $folder)) {
