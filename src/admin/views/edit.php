@@ -241,7 +241,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 inputs.forEach(input => {
                     const name = input.getAttribute('name');
                     if (name && name.startsWith(prefix)) {
-                        const match = name.match(/\[(\d+)\]/);
+                        const escapedPrefix = prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                        const regex = new RegExp(escapedPrefix + '\\[(\\d+)\\]');
+                        const match = name.match(regex);
                         if (match) {
                             const idx = parseInt(match[1]);
                             if (idx > maxIndex) maxIndex = idx;
