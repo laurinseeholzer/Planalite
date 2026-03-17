@@ -117,7 +117,11 @@ if (file_exists($dataFile)) {
                         <p class="text-sm font-semibold leading-6 text-gray-900 dark:text-white">
                             <a href="admin.php?action=edit&target=<?= urlencode($target) ?>&slug=<?= urlencode($item['slug'] ?? '') ?>">
                                 <span class="absolute inset-x-0 -top-px bottom-0"></span>
-                                <?= htmlspecialchars($item['title'] ?? $item['name'] ?? $item['slug'] ?? 'Untitled Item') ?>
+                                <?php 
+                                $titleObj = $item['title'] ?? $item['name'] ?? $item['slug'] ?? 'Untitled Item';
+                                $titleStr = is_array($titleObj) ? ($titleObj['inner'] ?? 'Untitled') : $titleObj;
+                                echo htmlspecialchars($titleStr);
+                                ?>
                             </a>
                         </p>
                         <p class="mt-1 flex text-xs leading-5 text-gray-500 dark:text-gray-400">

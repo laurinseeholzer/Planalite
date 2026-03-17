@@ -1,11 +1,11 @@
 {
-    "pageTitle": {
-        "inner": "About Us"
+    "title": {
+        "inner": "About this Website"
     },
-    "ourStory": {
-        "inner": "We are a passionate team dedicated to building great things. Our journey started in a small garage with a big dream."
+    "subtitle": {
+        "inner": "Learn what this Website is built for and how it demonstrates the power of Planalite."
     },
-    "mission": {
-        "inner": "Our mission is to provide excellent service and high-quality products to all our customers worldwide."
+    "content": {
+        "inner": "This Website features two singleton pages (Home and About) as well as a Collection of Posts. The Homepage demonstrates repeatable objects, standard editable elements as well as a list-view of the Collection."
     }
 }

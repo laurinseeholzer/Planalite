@@ -1,0 +1,47 @@
+[
+    {
+        "slug": "first-collection-item",
+        "title": {
+            "inner": "First Collection Item"
+        },
+        "subtitle": {
+            "inner": "This is the page for the first collection item."
+        },
+        "date": {
+            "inner": "2026-01-01"
+        },
+        "content": {
+            "inner": "This is the content for the first collection item."
+        }
+    },
+    {
+        "slug": "second-collection-item",
+        "title": {
+            "inner": "Second Collection Item"
+        },
+        "subtitle": {
+            "inner": "This is the page for the second collection item."
+        },
+        "date": {
+            "inner": "2026-02-01"
+        },
+        "content": {
+            "inner": "This is the content for the second collection item."
+        }
+    },
+    {
+        "slug": "third-collection-item",
+        "title": {
+            "inner": "Third Collection Item"
+        },
+        "subtitle": {
+            "inner": "This is the page for the third collection item."
+        },
+        "date": {
+            "inner": "2026-03-01"
+        },
+        "content": {
+            "inner": "This is the content for the third collection item."
+        }
+    }
+]

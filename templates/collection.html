@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="cms-type" content="singleton">
-    <meta name="cms-name" content="About">
+    <meta name="cms-type" content="collection">
+    <meta name="cms-collection" content="collection">
+    <meta name="cms-name" content="Collection">
     <title cms="title" class="cms-inner">HEADING</title>
 </head>
 
@@ -19,7 +20,11 @@
     <h1 cms="title" class="cms-inner">HEADING</h1>
     <p cms="subtitle" class="cms-inner">SUBHEADING</p>
 
-    <p cms="content" class="cms-inner">CONTENT</p>
+    <p>Published on <span cms="date" class="cms-inner">DATE</span></p>
+
+    <div cms="content" class="cms-inner">
+        CONTENT
+    </div>
 </body>
 
 </html>

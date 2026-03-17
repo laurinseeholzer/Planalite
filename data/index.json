@@ -1,62 +1,22 @@
 {
-    "pageTitle": {
-        "inner": "Welcome to the Demo Site"
+    "title": {
+        "inner": "Planalite Demo Site"
     },
-    "heroSubtitle": {
-        "inner": "A simple demonstration of a generic website layout."
+    "subtitle": {
+        "inner": "This is the Planalite CMS demonstration site, featuring the basic concepts Planalite offers."
     },
-    "aboutLinkText": {
-        "inner": "Learn More About Us",
-        "href": "\/about"
-    },
-    "blogLinkText": {
-        "inner": "Read Our Blog",
-        "href": "\/blog"
-    },
-    "listItems": [
+    "quickLink": [
         {
-            "itemTitle": {
-                "inner": "FIRST LIST ITEM"
-            },
-            "itemTags": [
-                {
-                    "tagName": {
-                        "inner": "asdfa"
-                    }
-                },
-                {
-                    "tagName": {
-                        "inner": "tag#2.1"
-                    }
-                },
-                {
-                    "tagName": {
-                        "inner": "tagsadsf"
-                    }
-                }
-            ]
+            "link": {
+                "inner": "Learn more",
+                "href": "\/about"
+            }
         },
         {
-            "itemTitle": {
-                "inner": "SECOND LIST ITEM"
-            },
-            "itemTags": [
-                {
-                    "tagName": {
-                        "inner": "tag#3"
-                    }
-                },
-                {
-                    "tagName": {
-                        "inner": "tag#4"
-                    }
-                },
-                {
-                    "tagName": {
-                        "inner": "tag#4"
-                    }
-                }
-            ]
+            "link": {
+                "inner": "Visit the Planaliste Repository",
+                "href": "https:\/\/github.com\/laurinseeholzer\/Planalite"
+            }
         }
     ]
 }

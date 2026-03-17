@@ -6,35 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="cms-type" content="singleton">
     <meta name="cms-name" content="Home">
-    <title cms="pageTitle" class="cms-inner">Home</title>
+    <title cms="title" class="cms-inner">HEADING</title>
 </head>
 
 <body>
     <nav>
         <a href="/">Home</a> |
-        <a href="/about">About</a> |
-        <a href="/blog">Blog</a>
+        <a href="/about">About</a>
     </nav>
     <hr>
 
-    <h1 cms="pageTitle" class="cms-inner">Welcome to My Site</h1>
-    <p cms="heroSubtitle" class="cms-inner">A simple demonstration website.</p>
+    <h1 cms="title" class="cms-inner">HEADING</h1>
+    <p cms="subtitle" class="cms-inner">SUBHEADING</p>
 
-    <p>
-        <a cms="aboutLinkText" class="cms-inner cms-href" href="/about">Learn More</a><br><br>
-        <a cms="blogLinkText" class="cms-inner cms-href" href="/blog">Read Blog</a>
-    </p>
+    <div>
+        <h4>Quick Links</h4>
+        <div cms="quickLink" class="cms-repeat">
+            <a cms="link" class="cms-inner cms-href" href="/QUICKLINK">QUICKLINK TEXT<br></a>
+        </div>
+    </div>
 
-    <ul>
-        <li cms="listItems" class="cms-repeat">
-            <h3 cms="itemTitle" class="cms-inner">Title</h3>
-            <ul>
-                <li cms="itemTags" class="cms-repeat">
-                    <span cms="tagName" class="cms-inner">Tag</span>
-                </li>
-            </ul>
-        </li>
-    </ul>
+    <div>
+        <h4>Collection</h4>
+        <ul>
+            <li class="cms-collection-collection cms-repeat">
+                <h5><span cms="title" class="cms-inner">COLLECTION TITLE</span></h5>
+                <p>Published on <span cms="date" class="cms-inner">COLLECTION DATE</span></p>
+                <p><a class="cms-item-link" href="#">View Entry</a></p>
+                <hr>
+            </li>
+        </ul>
+    </div>
 
 </body>
 
