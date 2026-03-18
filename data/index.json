@@ -1,22 +1,22 @@
 {
     "title": {
-        "inner": "Planalite Demo Site"
+        "inner": "Planalite Demo Siteee"
     },
     "subtitle": {
         "inner": "This is the Planalite CMS demonstration site, featuring the basic concepts Planalite offers."
     },
-    "quickLink": [
-        {
-            "link": {
-                "inner": "Learn more",
-                "href": "\/about"
-            }
-        },
-        {
+    "quickLink": {
+        "1": {
             "link": {
                 "inner": "Visit the Planaliste Repository",
                 "href": "https:\/\/github.com\/laurinseeholzer\/Planalite"
             }
+        },
+        "2": {
+            "link": {
+                "inner": "Visit the Admin CMS Backend",
+                "href": "\/admin.php"
+            }
         }
-    ]
+    }
 }

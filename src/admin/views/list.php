@@ -118,9 +118,7 @@ if (file_exists($dataFile)) {
                             <a href="admin.php?action=edit&target=<?= urlencode($target) ?>&slug=<?= urlencode($item['slug'] ?? '') ?>">
                                 <span class="absolute inset-x-0 -top-px bottom-0"></span>
                                 <?php 
-                                $titleObj = $item['title'] ?? $item['name'] ?? $item['slug'] ?? 'Untitled Item';
-                                $titleStr = is_array($titleObj) ? ($titleObj['inner'] ?? 'Untitled') : $titleObj;
-                                echo htmlspecialchars($titleStr);
+                                echo htmlspecialchars($item['slug'] ?? 'Untitled Item');
                                 ?>
                             </a>
                         </p>

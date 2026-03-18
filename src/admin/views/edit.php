@@ -79,7 +79,7 @@ if ($isCollection) {
     if ($isCreate) {
         $itemTitle = "New Item";
     } else {
-        $itemTitle = $slug ? (isset($data['title']) ? $data['title'] : (isset($data['name']) ? $data['name'] : $slug)) : "New Item";
+        $itemTitle = $slug ?? "Untitled Item";
     }
 } else {
     $itemTitle = $prettyTargetName;
